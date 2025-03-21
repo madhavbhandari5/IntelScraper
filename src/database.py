@@ -1,3 +1,4 @@
+# database.py
 import mysql.connector
 from config import DB_CONFIG
 
@@ -18,11 +19,16 @@ def create_database():
 
     # Create the table if it doesn't exist
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS InfantDeaths (
+        CREATE TABLE IF NOT EXISTS Animals (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            country VARCHAR(255),
+            country_or_area VARCHAR(255),
             year INT,
-            deaths INT
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
         )
     """)
 
@@ -39,7 +45,10 @@ def insert_data(data_list):
     cursor.execute("USE UNData")
 
     # Insert data into the table
-    insert_query = "INSERT INTO InfantDeaths (country, year, deaths) VALUES (%s, %s, %s)"
+    insert_query = """
+        INSERT INTO Animals (country_or_area, year, commodity, flow, trade_usd, weight_kg, quantity_name, quantity)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
     cursor.executemany(insert_query, data_list)
 
     # Commit and close the connection
