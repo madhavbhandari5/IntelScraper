@@ -17,9 +17,39 @@ def create_database():
     # Switch to the newly created database
     cursor.execute("USE UNData")
 
-    # Create the table if it doesn't exist
+    # Create the Animals table if it doesn't exist
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Animals (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            country_or_area VARCHAR(255),
+            year INT,
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
+        )
+    """)
+
+    # Create the Meats table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Meats (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            country_or_area VARCHAR(255),
+            year INT,
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
+        )
+    """)
+
+    # Create the Fishes table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Fishes (
             id INT AUTO_INCREMENT PRIMARY KEY,
             country_or_area VARCHAR(255),
             year INT,
@@ -36,7 +66,7 @@ def create_database():
     conn.commit()
     conn.close()
 
-def insert_data(data_list):
+def insert_data(table_name, data_list):
     # Connect to MySQL with the database specified
     conn = mysql.connector.connect(**DB_CONFIG)
     cursor = conn.cursor()
@@ -44,9 +74,9 @@ def insert_data(data_list):
     # Use the UNData database
     cursor.execute("USE UNData")
 
-    # Insert data into the table
-    insert_query = """
-        INSERT INTO Animals (country_or_area, year, commodity, flow, trade_usd, weight_kg, quantity_name, quantity)
+    # Insert data into the specified table
+    insert_query = f"""
+        INSERT INTO {table_name} (country_or_area, year, commodity, flow, trade_usd, weight_kg, quantity_name, quantity)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     cursor.executemany(insert_query, data_list)

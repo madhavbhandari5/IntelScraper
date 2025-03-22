@@ -1,3 +1,4 @@
+# scraper.py
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -14,7 +15,11 @@ def scrape_page(driver):
         cols = row.find_elements(By.TAG_NAME, 'td')
         try:
             country_or_area = cols[0].text.strip()
-            year = int(cols[1].text.strip())
+            
+            # Handle empty or missing values for year
+            year = cols[1].text.strip()
+            year = int(year) if year else 0  # Default to 0 if empty
+            
             commodity = cols[2].text.strip()
             flow = cols[3].text.strip()
             
@@ -39,15 +44,11 @@ def scrape_page(driver):
     
     return data
 
-def scrape_all_pages():
-    # Initialize the WebDriver using the Service class
-    service = Service(executable_path='/usr/bin/chromedriver')  # Use Service class
-    driver = webdriver.Chrome(service=service)  # Pass the service object
-    driver.get("https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a2")
-    
+def scrape_table(driver, url, max_pages=20):
+    driver.get(url)
     all_data = []
     try:
-        while True:
+        for page in range(1, max_pages + 1):
             # Wait for the table to load
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, 'DataContainer'))
@@ -55,19 +56,50 @@ def scrape_all_pages():
             
             # Scrape the current page
             current_page = driver.find_element(By.ID, 'spanPageIndexB').text
-            print(f"Scraping page {current_page}")
+            print(f"Scraping page {current_page} of {url}")
             page_data = scrape_page(driver)
             all_data.extend(page_data)
             
             # Check if there is a next page
             next_button = driver.find_element(By.ID, 'linkNextB')
             if 'disabled' in next_button.get_attribute('class'):
+                print("No more pages available. Stopping scraping.")
                 break  # Exit if there is no next page
             
             # Click the next button
             next_button.click()
             time.sleep(2)  # Wait for the next page to load
-    finally:
-        driver.quit()
+            
+            # Re-locate the table after navigating to the next page
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'DataContainer'))
+            )
+    except Exception as e:
+        print(f"Error during scraping: {e}")
     
     return all_data
+
+def scrape_all_tables():
+    # Initialize the WebDriver using the Service class
+    service = Service(executable_path='/usr/bin/chromedriver')  # Use Service class
+    driver = webdriver.Chrome(service=service)  # Pass the service object
+    
+    # Scrape the Animals table
+    animals_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a2"
+    animals_data = scrape_table(driver, animals_url, max_pages=20)
+    
+    # Scrape the Meats table
+    meats_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a3"
+    meats_data = scrape_table(driver, meats_url, max_pages=20)
+    
+    # Scrape the Fishes table
+    fishes_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a4"
+    fishes_data = scrape_table(driver, fishes_url, max_pages=20)
+    
+    driver.quit()
+    
+    return {
+        "Animals": animals_data,
+        "Meats": meats_data,
+        "Fishes": fishes_data
+    }
