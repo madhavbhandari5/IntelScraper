@@ -1,3 +1,4 @@
+# scraper.py
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -14,7 +15,11 @@ def scrape_page(driver):
         cols = row.find_elements(By.TAG_NAME, 'td')
         try:
             country_or_area = cols[0].text.strip()
-            year = int(cols[1].text.strip())
+            
+            # Handle empty or missing values for year
+            year = cols[1].text.strip()
+            year = int(year) if year else 0  # Default to 0 if empty
+            
             commodity = cols[2].text.strip()
             flow = cols[3].text.strip()
             
@@ -64,6 +69,11 @@ def scrape_table(driver, url, max_pages=20):
             # Click the next button
             next_button.click()
             time.sleep(2)  # Wait for the next page to load
+            
+            # Re-locate the table after navigating to the next page
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'DataContainer'))
+            )
     except Exception as e:
         print(f"Error during scraping: {e}")
     
