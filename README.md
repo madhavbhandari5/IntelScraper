@@ -9,7 +9,7 @@
 `python main.py`
 
 ## Run the Streamlit App
-`streamlit run main.py`
+`streamlit run dashboard.py`
 
 ## Project Description
 IntelScraper is a Python-based web scraping tool designed to extract, process, and visualize data from [UN Data](https://data.un.org/). This project automates data retrieval from the website, transforming raw information into meaningful insights through visualization.
