@@ -3,7 +3,7 @@
 # Project Title: Custom Web Scraper with Data Visualization: Insights from the Web
 
 ## Install Dependencies
-`pip install streamlit mysql-connector-python pandas plotly`
+`pip install streamlit mysql-connector-python pandas plotly selenium`
 
 ## Run the Scraper App
 `python main.py`
