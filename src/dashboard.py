@@ -37,7 +37,7 @@ def main():
     st.sidebar.title("Navigation")
 
     # Sidebar navigation
-    options = ["Animals", "Meats", "Fishes"]
+    options = ["Animals", "Meats", "Fishes", "Dairies", "AnimalOriginated", "Trees"]
     choice = st.sidebar.selectbox("Select a table", options)
 
     # Fetch and display data based on user choice

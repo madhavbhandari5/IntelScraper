@@ -62,6 +62,51 @@ def create_database():
         )
     """)
 
+    # Create the Dairies table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Dairies (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            country_or_area VARCHAR(255),
+            year INT,
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
+        )
+    """)
+
+    # Create the AnimalOriginated table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS AnimalOriginated (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            country_or_area VARCHAR(255),
+            year INT,
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
+        )
+    """)
+
+    # Create the Trees table if it doesn't exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Trees (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            country_or_area VARCHAR(255),
+            year INT,
+            commodity VARCHAR(255),
+            flow VARCHAR(255),
+            trade_usd DECIMAL(15, 2),
+            weight_kg DECIMAL(15, 2),
+            quantity_name VARCHAR(255),
+            quantity DECIMAL(15, 2)
+        )
+    """)
+
     # Commit and close the connection
     conn.commit()
     conn.close()

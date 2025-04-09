@@ -17,7 +17,7 @@ def scrape_page(driver):
             country_or_area = cols[0].text.strip()
             
             # Handle empty or missing values for year
-            year = cols[1].text.strip()
+            year = cols[1].text.strip().replace(',', '')
             year = int(year) if year else 0  # Default to 0 if empty
             
             commodity = cols[2].text.strip()
@@ -95,11 +95,26 @@ def scrape_all_tables():
     # Scrape the Fishes table
     fishes_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a4"
     fishes_data = scrape_table(driver, fishes_url, max_pages=20)
+
+    # Scrape the Dairies table
+    dairies_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a5"
+    dairies_data = scrape_table(driver, dairies_url, max_pages=20)
+    
+    # Scrape the Meats table
+    animaloriginated_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a6"
+    animaloriginated_data = scrape_table(driver, animaloriginated_url, max_pages=20)
+    
+    # Scrape the Trees table
+    trees_url = "https://data.un.org/Data.aspx?d=ComTrade&f=_l1Code%3a7"
+    trees_data = scrape_table(driver, trees_url, max_pages=20)
     
     driver.quit()
     
     return {
         "Animals": animals_data,
         "Meats": meats_data,
-        "Fishes": fishes_data
+        "Fishes": fishes_data,
+        "Dairies": dairies_data,
+        "AnimalOriginated": animaloriginated_data,
+        "Trees": trees_data
     }
