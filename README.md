@@ -12,7 +12,7 @@ Clone this repository to your local machine:
 
 
 ## Install Dependencies
-`pip install streamlit mysql-connector-python pandas plotly selenium`
+`pip install streamlit mysql-connector-python pandas plotly selenium pycountry`
 
 ## Run the Scraper App
 `python main.py`
