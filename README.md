@@ -13,8 +13,11 @@ Clone this repository to your local machine:
 
 ## Create and Activate Virtual Environment
 `cd src`
+
 `python -m venv venv`
+
 `source venv/bin/activate  # On Windows use: venv\Scripts\activate`
+
 `pip install -r requirements.txt`
 
 
