@@ -11,8 +11,14 @@ Clone this repository to your local machine:
 
 `cd IntelScraper`
 
+## Create and Activate Virtual Environment
+`cd src`
+`python -m venv venv`
+`source venv/bin/activate  # On Windows use: venv\Scripts\activate`
+`pip install -r requirements.txt`
 
-## Install Dependencies
+
+## Install Dependencies (Optional)
 `pip install streamlit mysql-connector-python pandas plotly selenium pycountry`
 
 ## Run the Scraper App
