@@ -40,7 +40,7 @@ def main():
     insert_data("Trees", data["Trees"])
     print(f"Inserted {len(data['Trees'])} records into the Trees table.")
     
-    print("Data insertion complete.")
+    print("Data insertion complete...")
 
 if __name__ == "__main__":
     main()
