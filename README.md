@@ -3,7 +3,7 @@
 # Project Title: Custom Web Scraper with Data Visualization: Insights from the Web
 
 ## YouTube Link: 
-[https://www.youtube.com/watch?v=005RQ6pRFIY&ab_channel=MadhavBhandari]
+https://www.youtube.com/watch?v=005RQ6pRFIY&ab_channel=MadhavBhandari
 
 ## Project Setup
 ## Clone the Repository
